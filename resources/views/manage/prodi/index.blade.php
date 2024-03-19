@@ -125,7 +125,6 @@
             var alamat = prodiUpdate.replace('prodi_id', prodi_id);
 
             var formData = new FormData($("#formProdi")[0]);
-
             formData.append('_method', 'PUT');
 
             $.ajax({

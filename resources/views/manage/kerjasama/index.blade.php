@@ -37,7 +37,8 @@
 @section('script')
     <script>
         const DuDiIndex = "{{ route('kerjasama.index') }}";
-        const DuDiStore = "{{ route('kerjasama.store') }}";
+        const DuDiStore = "{{ route('dudiNonNib.store') }}";
+        const KerjasamaStore = "{{ route('kerjasama.store') }}";
 
         function onChangeSelect(url, id, name) {
 
@@ -100,7 +101,7 @@
                 $('#formDudi').trigger('reset');
                 $('#modalDudiNonNIB').modal('show');
             });
-            $('#simpan').click(function(e) {
+            $('#simpanDudiNonNib').click(function(e) {
                 e.preventDefault();
 
                 var formData = new FormData($("#formDudi")[0]);
@@ -115,17 +116,53 @@
                     url: url,
                     type: "POST",
                     success: function(data) {
-                        $('#formDudi').trigger("reset");
-                        $('#modalDudiNonNIB').modal('hide');
-                        $('#kerjasama').modal('hide');
-                        table.ajax.reload();
+                        if (data.success) {
+                            $('#formDudi').trigger("reset");
+                            $('#modalDudiNonNIB').modal('hide');
+                            $('#idDudi').val(data.data);
+                            $('#modalKerjasama').modal('show');
+                        } else {
+                            $.each(data.errors, function(key, value) {
+                                $('.error-' + key).text(value);
+                            });
+                        }
+                    },
+                    error: function(data) {
+                        console.error('Error:', data);
+                    }
+                });
+            });
 
-                        Swal.fire({
-                            title: "Berhasil!",
-                            text: "Data Berhasil Disimpan.",
-                            icon: "success",
-                            timer: 3000
-                        });
+            $('#simpanKerjasama').click(function(e) {
+                e.preventDefault();
+
+                var formData = new FormData($("#formKerjasama")[0]);
+
+                var method = "POST";
+
+                $.ajax({
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    url: KerjasamaStore,
+                    type: "POST",
+                    success: function(data) {
+                        if (data.success) {
+                            $('#formKerjasama').trigger("reset");
+                            $('#modalKerjasama').modal('hide');
+                            table.ajax.reload();
+
+                            Swal.fire({
+                                title: "Berhasil!",
+                                text: "Data Berhasil Disimpan.",
+                                icon: "success",
+                                timer: 3000
+                            });
+                        } else {
+                            $.each(data.errors, function(key, value) {
+                                $('.error-' + key).text(value);
+                            });
+                        }
                     },
                     error: function(data) {
                         console.error('Error:', data);

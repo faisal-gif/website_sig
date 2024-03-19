@@ -3,6 +3,7 @@
 use App\Http\Controllers\DependantDropdownController;
 use App\Http\Controllers\DuDiController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KerjasamaController;
 use App\Http\Controllers\ProdiController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,15 +40,16 @@ Route::get('villages', [DependantDropdownController::class, 'villages'])->name('
 Route::prefix('dudiNonNIb')->group(function () {
     Route::get('/', [DuDiController::class, 'dudiNonNib'])->name('dudiNonNib.show');
     Route::get('/index', [DuDiController::class, 'dudiNonNibindex'])->name('dudiNonNib.index');
+    Route::post('/store', [DuDiController::class, 'store'])->name('dudiNonNib.store');
+    Route::get('{id}/edit', [DuDiController::class, 'edit'])->name('dudiNonNib.edit');
+    Route::put('{id}/update', [DuDiController::class, 'update'])->name('dudiNonNib.update');
+    Route::get('{id}/destroy', [DuDiController::class, 'destroy'])->name('dudiNonNib.destroy');
 });
 
 Route::prefix('kerjasama')->group(function () {
     Route::get('/', [DuDiController::class, 'show'])->name('kerjasama.show');
     Route::get('/index', [DuDiController::class, 'index'])->name('kerjasama.index');
-    Route::post('/store', [DuDiController::class, 'store'])->name('kerjasama.store');
-    Route::get('{id}/edit', [DuDiController::class, 'edit'])->name('kerjasama.edit');
-    Route::put('{id}/update', [DuDiController::class, 'update'])->name('kerjasama.update');
-    Route::get('{id}/destroy', [DuDiController::class, 'destroy'])->name('kerjasama.destroy');
+    Route::post('/store', [KerjasamaController::class, 'store'])->name('kerjasama.store');
 });
 
 

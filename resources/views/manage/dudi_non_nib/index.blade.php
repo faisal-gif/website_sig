@@ -10,12 +10,12 @@
         </div>
         <div class="card-body">
             <div class="mb-3">
-                {{-- <a href="" class="btn btn-sm btn-success btn-icon-split">
-                <span class="icon text-white-50">
-                    <i class="fas fa-fa fa-plus"></i>
-                </span>
-                <span class="text">Tambah</span>
-            </a> --}}
+                <button type="button" id="tambah_dudi_non_nib" class="btn btn-sm btn-success btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-fa fa-plus"></i>
+                    </span>
+                    <span class="text">Tambah DUDI</span>
+                </button>
             </div>
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -26,7 +26,7 @@
                             <th>Kabupaten/Kota</th>
                             <th>Lingkup</th>
                             <th>Kategori Mitra</th>
-
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -35,12 +35,54 @@
             </div>
         </div>
     </div>
+    @include('manage.dudi_non_nib.modal')
 @section('script')
     <script>
-        const  DudiNonNibIndex = "{{ route('dudiNonNib.index') }}";
+        const DudiNonNibIndex = "{{ route('dudiNonNib.index') }}";
+        const DuDiStore = "{{ route('dudiNonNib.store') }}";
+        const DuDiEdit = "{{ route('dudiNonNib.edit', ['id' => 'id']) }}";
+        const DuDiUpdate = "{{ route('dudiNonNib.update', ['id' => 'id']) }}";
+
+        function onChangeSelect(url, id, name, defaultValue = null) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: {
+                    id: id
+                },
+                success: function(data) {
+
+                    $.each(data, function(key, value) {
+                        $('#' + name).append('<option value="' + key + '">' + value + '</option>');
+                    });
+
+                    if (defaultValue !== null) {
+                        $('#' + name).val(defaultValue).trigger('change');
+                    }
+                }
+            });
+        }
 
         $(function() {
 
+            $('#provinsi').on('change', function() {
+                $('#kota').empty().append('<option value="">Pilih</option>');
+                $('#kecamatan').empty().append('<option value="">Pilih</option>');
+                $('#kelurahan').empty().append('<option value="">Pilih</option>');
+
+                onChangeSelect('{{ route('cities') }}', $(this).val(), 'kota');
+            });
+            $('#kota').on('change', function() {
+                $('#kecamatan').empty().append('<option value="">Pilih</option>');
+                $('#kelurahan').empty().append('<option value="">Pilih</option>');
+
+                onChangeSelect('{{ route('districts') }}', $(this).val(), 'kecamatan');
+            })
+            $('#kecamatan').on('change', function() {
+                $('#kelurahan').empty().append('<option value="">Pilih</option>');
+
+                onChangeSelect('{{ route('villages') }}', $(this).val(), 'kelurahan');
+            })
 
             var table = $('#dataTable').DataTable({
                 processing: false,
@@ -67,13 +109,126 @@
                         data: 'kategori_mitra',
                         name: 'kategori_mitra',
                     },
+                    {
+                        data: 'action',
+                        name: 'action',
+                    },
                 ],
                 search: {
                     "regex": true
                 }
             });
+            $('#tambah_dudi_non_nib').click(function() {
+                $('#idDudi').val('');
+                $('#formDudi').trigger('reset');
+                $('#update').hide();
+                $('#modalDudiNonNIB').modal('show');
+            });
 
-           
+            $('#simpan').click(function(e) {
+                e.preventDefault();
+
+                var formData = new FormData($("#formDudi")[0]);
+
+                var url = DuDiStore;
+                var method = "POST";
+
+                $.ajax({
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    url: url,
+                    type: "POST",
+                    success: function(data) {
+                        if (data.success) {
+                            $('#formDudi').trigger("reset");
+                            $('#modalDudiNonNIB').modal('hide');
+                            table.ajax.reload();
+
+                            Swal.fire({
+                                title: "Berhasil!",
+                                text: "Data Berhasil Disimpan.",
+                                icon: "success",
+                                timer: 3000
+                            });
+                        } else {
+                            $.each(data.errors, function(key, value) {
+                                $('.error-' + key).text(value);
+                            });
+                        }
+                    },
+                    error: function(data) {
+                        console.error('Error:', data);
+                    }
+                });
+            });
+
+            $('body').on('click', '.editDudi', function() {
+                var dudi_id = $(this).data('id');
+                $.get(DuDiEdit.replace('id', dudi_id), function(data) {
+                    $('#simpan').hide();
+                    $('#update').show();
+                    $('#update').val("edit-dudi");
+                    $('#modalDudiNonNIB').modal('show');
+                    $('#dudiId').val(data.id);
+                    $('#nama').val(data.nama);
+                    $('#kategori').val(data.kategori_mitra);
+                    $('#lingkup').val(data.lingkup_kerjasama);
+                    $('#email').val(data.email);
+                    $('#no_telepon').val(data.no_telp);
+                    $('#sk_pendirian').val(data.sk_pendirian);
+                    $('#kbli').val(data.kbli);
+                    $('#alamat').val(data.alamat);
+                    $('#provinsi').val(data.provinsi);
+
+                    onChangeSelect('{{ route('cities') }}', data.provinsi, 'kota', data.kota);
+                    onChangeSelect('{{ route('districts') }}', data.kota, 'kecamatan', data
+                        .kecamatan);
+                    onChangeSelect('{{ route('villages') }}', data.kecamatan, 'kelurahan', data
+                        .kelurahan);
+
+                });
+            });
+
+            $('#update').click(function(e) {
+                e.preventDefault();
+
+                var prodi_id = $('#idProdi').val();
+                var alamat = prodiUpdate.replace('prodi_id', prodi_id);
+
+                var formData = new FormData($("#formDudi")[0]);
+                formData.append('_method', 'PUT');
+
+                $.ajax({
+                    url: alamat,
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            $('#formDudi').trigger("reset");
+                            $('#modalDudiNonNIB').modal('hide');
+                            table.ajax.reload();
+                            Swal.fire({
+                                type: 'success',
+                                icon: 'success',
+                                title: `${response.message}`,
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                        } else {
+                            $.each(response.errors, function(key, value) {
+                                $('.error-' + key).text(value);
+                            });
+                        }
+                    },
+                    error: function(data) {
+                        console.log('Error:', data);
+                    }
+                });
+            })
 
         })
     </script>

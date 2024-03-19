@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -15,6 +14,9 @@ return new class extends Migration
     {
         Schema::create('notif', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('kerjasama');
+            $table->foreign('kerjasama')->references('id')->on('kerjasama')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('status');
             $table->timestamps();
         });
     }

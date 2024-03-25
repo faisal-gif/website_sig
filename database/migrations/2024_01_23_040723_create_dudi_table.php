@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string('nib')->nullable();
             $table->string('tipe')->nullable();
             $table->string('kode_pt')->nullable();
+            $table->string('jenis');
             $table->string('nama');
             $table->string('kategori_mitra');
             $table->string('lingkup_kerjasama');
@@ -25,29 +26,11 @@ return new class extends Migration {
             $table->string('sk_pendirian')->nullable();
             $table->string('kbli')->nullable();
             $table->string('alamat');
-            $table->unsignedBigInteger('provinsi');
-            $table->unsignedBigInteger('kota');
-            $table->unsignedBigInteger('kecamatan');
-            $table->unsignedBigInteger('kelurahan');
+            $table->string('provinsi');
+            $table->string('kota');
+            $table->string('kecamatan');
+            $table->string('kelurahan');
             $table->timestamps();
-
-            $table->foreign('provinsi')
-                ->references('id')
-                ->on(config('laravolt.indonesia.table_prefix') . 'provinces')
-                ->onUpdate('cascade')->onDelete('restrict');
-            $table->foreign('kota')
-                ->references('id')
-                ->on(config('laravolt.indonesia.table_prefix') . 'cities')
-                ->onUpdate('cascade')->onDelete('restrict');
-            $table->foreign('kecamatan')
-                ->references('id')
-                ->on(config('laravolt.indonesia.table_prefix') . 'districts')
-                ->onUpdate('cascade')->onDelete('restrict');
-            $table->foreign('kelurahan')
-                ->references('id')
-                ->on(config('laravolt.indonesia.table_prefix') . 'villages')
-                ->onUpdate('cascade')->onDelete('restrict');
-
         });
     }
 

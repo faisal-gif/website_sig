@@ -10,11 +10,17 @@
         </div>
         <div class="card-body">
             <div class="mb-3">
-                <button type="button" id="tambah_dudi_non_nib" class="btn btn-sm btn-success btn-icon-split">
+                <button type="button" id="tambah_kerjasama_DuDiNonNIB" class="btn btn-sm btn-success btn-icon-split">
                     <span class="icon text-white-50">
                         <i class="fas fa-fa fa-plus"></i>
                     </span>
                     <span class="text">Tambah DUDI Non-NIB</span>
+                </button>
+                <button type="button" id="tambah_kerjasama_DuDiNIB" class="btn btn-sm btn-success btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-fa fa-plus"></i>
+                    </span>
+                    <span class="text">Tambah DUDI NIB</span>
                 </button>
             </div>
             <div class="table-responsive">
@@ -24,6 +30,7 @@
                             <th>NIB/NPSN/Kode PT</th>
                             <th>Nama</th>
                             <th>Item Kerjasama</th>
+                            <th>Status</th>
                             <th>MOU dan PKS</th>
 
                         </tr>
@@ -36,45 +43,16 @@
     @include('manage.kerjasama.modal-dudi-nonNib')
 @section('script')
     <script>
-        const DuDiIndex = "{{ route('kerjasama.index') }}";
-        const DuDiStore = "{{ route('dudiNonNib.store') }}";
+        const KerjasamaIndex = "{{ route('kerjasama.index') }}";
         const KerjasamaStore = "{{ route('kerjasama.store') }}";
 
-        function onChangeSelect(url, id, name) {
-
-            $.ajax({
-                url: url,
-                type: 'GET',
-                data: {
-                    id: id
-                },
-                success: function(data) {
-                    $('#' + name).empty();
-                    $('#' + name).append('<option>Pilih</option>');
-
-                    $.each(data, function(key, value) {
-                        $('#' + name).append('<option value="' + key + '">' + value + '</option>');
-                    });
-                }
-            });
-        }
-
         $(function() {
-            $('#provinsi').on('change', function() {
-                onChangeSelect('{{ route('cities') }}', $(this).val(), 'kota');
-            });
-            $('#kota').on('change', function() {
-                onChangeSelect('{{ route('districts') }}', $(this).val(), 'kecamatan');
-            })
-            $('#kecamatan').on('change', function() {
-                onChangeSelect('{{ route('villages') }}', $(this).val(), 'kelurahan');
-            })
 
             var table = $('#dataTable').DataTable({
                 processing: false,
                 serverSide: false,
                 responsive: true,
-                ajax: DuDiIndex,
+                ajax: KerjasamaIndex,
                 columns: [{
                         data: 'nib',
                         name: 'nib',
@@ -88,6 +66,10 @@
                         name: 'item_kerjasama',
                     },
                     {
+                        data: 'status',
+                        name: 'status',
+                    },
+                    {
                         data: 'action',
                         name: 'action',
                     },
@@ -96,42 +78,24 @@
                     "regex": true
                 }
             });
-            $('#tambah_dudi_non_nib').click(function() {
-                $('#idDudi').val('');
-                $('#formDudi').trigger('reset');
-                $('#modalDudiNonNIB').modal('show');
+            $('#tambah_kerjasama_DuDiNonNIB').click(function() {
+                $('#DuDiNonNIB').show();
+                $('#DuDiNIB').hide();
+                $('#FieldDuDiNonNIB').removeAttr('disabled');
+                $('#FieldDuDiNIB').attr('disabled', true);
+                $('#formKerjasama').trigger('reset');
+                $('#modalKerjasama').modal('show');
             });
-            $('#simpanDudiNonNib').click(function(e) {
-                e.preventDefault();
 
-                var formData = new FormData($("#formDudi")[0]);
-
-                var url = DuDiStore;
-                var method = "POST";
-
-                $.ajax({
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    url: url,
-                    type: "POST",
-                    success: function(data) {
-                        if (data.success) {
-                            $('#formDudi').trigger("reset");
-                            $('#modalDudiNonNIB').modal('hide');
-                            $('#idDudi').val(data.data);
-                            $('#modalKerjasama').modal('show');
-                        } else {
-                            $.each(data.errors, function(key, value) {
-                                $('.error-' + key).text(value);
-                            });
-                        }
-                    },
-                    error: function(data) {
-                        console.error('Error:', data);
-                    }
-                });
+            $('#tambah_kerjasama_DuDiNIB').click(function() {
+                $('#DuDiNIB').show();
+                $('#DuDiNonNIB').hide();
+                $('#FieldDuDiNonNIB').attr('disabled', true);
+                $('#FieldDuDiNIB').removeAttr('disabled');
+                $('#formKerjasama').trigger('reset');
+                $('#modalKerjasama').modal('show');
             });
+
 
             $('#simpanKerjasama').click(function(e) {
                 e.preventDefault();

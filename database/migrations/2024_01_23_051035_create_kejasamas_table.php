@@ -26,6 +26,7 @@ return new class extends Migration {
             $table->date('selesai_pks');
             $table->string('dokumen_pks');
             $table->string('dokumen_mou');
+            $table->enum('status', ['berjalan', 'selesai']);
             $table->timestamps();
         });
     }

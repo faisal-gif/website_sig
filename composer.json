@@ -12,6 +12,7 @@
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.2",
         "laravolt/indonesia": "^0.34.0",
+        "maatwebsite/excel": "^3.1",
         "yajra/laravel-datatables": "9.0"
     },
     "require-dev": {

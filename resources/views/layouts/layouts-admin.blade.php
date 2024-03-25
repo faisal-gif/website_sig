@@ -27,6 +27,9 @@
     <link href="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
 </head>
 
 <body id="page-top">
@@ -77,7 +80,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/dudi-nib">
+                <a class="nav-link" href="/dudiNIB">
                     <i class="fas fa-fw fa-check"></i>
                     <span>DUDI Ber-NIB</span>
                 </a>
@@ -248,7 +251,11 @@
     <script src="{{ asset('template/vendor/chart.js/Chart.min.js') }}"></script>
     <script src="{{ asset('template/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <!-- Latest SelectPicker JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
 
+    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/i18n/defaults-*.min.js"></script>
 
     @yield('script')
 </body>

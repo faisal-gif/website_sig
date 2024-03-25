@@ -21,15 +21,6 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index']);
-Route::get('/dudi-nib', function () {
-    return view('manage.dudi_nib.index');
-});
-Route::get('/dudi-nib', function () {
-    return view('manage.dudi_nib.index');
-});
-Route::get('/dudi-non-nib', function () {
-    return view('manage.dudi_non_nib.index');
-});
 
 
 Route::get('provinces', [DependantDropdownController::class, 'provinces'])->name('provinces');
@@ -40,15 +31,26 @@ Route::get('villages', [DependantDropdownController::class, 'villages'])->name('
 Route::prefix('dudiNonNIb')->group(function () {
     Route::get('/', [DuDiController::class, 'dudiNonNib'])->name('dudiNonNib.show');
     Route::get('/index', [DuDiController::class, 'dudiNonNibindex'])->name('dudiNonNib.index');
-    Route::post('/store', [DuDiController::class, 'store'])->name('dudiNonNib.store');
-    Route::get('{id}/edit', [DuDiController::class, 'edit'])->name('dudiNonNib.edit');
-    Route::put('{id}/update', [DuDiController::class, 'update'])->name('dudiNonNib.update');
-    Route::get('{id}/destroy', [DuDiController::class, 'destroy'])->name('dudiNonNib.destroy');
+    Route::post('/store', [DuDiController::class, 'storeDudDiNonNib'])->name('dudiNonNib.store');
+    Route::post('/import', [DuDiController::class, 'importDudDiNonNib'])->name('dudiNonNib.import');
+    Route::get('{id}/edit', [DuDiController::class, 'editDudDiNonNib'])->name('dudiNonNib.edit');
+    Route::put('{id}/update', [DuDiController::class, 'updateDudDiNonNib'])->name('dudiNonNib.update');
+    Route::get('{id}/destroy', [DuDiController::class, 'destroyDudDiNonNib'])->name('dudiNonNib.destroy');
+});
+
+Route::prefix('dudiNIB')->group(function () {
+    Route::get('/', [DuDiController::class, 'dudiNib'])->name('dudiNib.show');
+    Route::get('/index', [DuDiController::class, 'dudiNibindex'])->name('dudiNib.index');
+    Route::post('/store', [DuDiController::class, 'storeDudDiNib'])->name('dudiNib.store');
+    Route::post('/import', [DuDiController::class, 'importDudDiNib'])->name('dudiNib.import');
+    Route::get('{id}/edit', [DuDiController::class, 'editDudDiNib'])->name('dudiNib.edit');
+    Route::put('{id}/update', [DuDiController::class, 'updateDudDiNib'])->name('dudiNib.update');
+    Route::get('{id}/destroy', [DuDiController::class, 'destroyDudDiNib'])->name('dudiNib.destroy');
 });
 
 Route::prefix('kerjasama')->group(function () {
-    Route::get('/', [DuDiController::class, 'show'])->name('kerjasama.show');
-    Route::get('/index', [DuDiController::class, 'index'])->name('kerjasama.index');
+    Route::get('/', [KerjasamaController::class, 'show'])->name('kerjasama.show');
+    Route::get('/index', [KerjasamaController::class, 'index'])->name('kerjasama.index');
     Route::post('/store', [KerjasamaController::class, 'store'])->name('kerjasama.store');
 });
 

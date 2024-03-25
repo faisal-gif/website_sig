@@ -16,7 +16,16 @@
                     </span>
                     <span class="text">Tambah DUDI</span>
                 </button>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-fa fa-plus"></i>
+                    </span>
+                    <span class="text">Impor Excel</span>
+                </button>
+
             </div>
+
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -42,18 +51,19 @@
         const DuDiStore = "{{ route('dudiNonNib.store') }}";
         const DuDiEdit = "{{ route('dudiNonNib.edit', ['id' => 'id']) }}";
         const DuDiUpdate = "{{ route('dudiNonNib.update', ['id' => 'id']) }}";
+        const DuDiDelete = "{{ route('dudiNonNib.destroy', ['id' => 'id']) }}";
 
-        function onChangeSelect(url, id, name, defaultValue = null) {
+        function onChangeSelect(url, val, name, defaultValue = null) {
             $.ajax({
                 url: url,
                 type: 'GET',
                 data: {
-                    id: id
+                    val: val
                 },
                 success: function(data) {
 
                     $.each(data, function(key, value) {
-                        $('#' + name).append('<option value="' + key + '">' + value + '</option>');
+                        $('#' + name).append('<option value="' + value + '">' + value + '</option>');
                     });
 
                     if (defaultValue !== null) {
@@ -193,8 +203,8 @@
             $('#update').click(function(e) {
                 e.preventDefault();
 
-                var prodi_id = $('#idProdi').val();
-                var alamat = prodiUpdate.replace('prodi_id', prodi_id);
+                var id = $('#dudiId').val();
+                var alamat = DuDiUpdate.replace('id', id);
 
                 var formData = new FormData($("#formDudi")[0]);
                 formData.append('_method', 'PUT');
@@ -228,8 +238,45 @@
                         console.log('Error:', data);
                     }
                 });
-            })
+            });
 
+            $('body').on('click', '.deleteDuDiNonNib', function() {
+                var id = $(this).data('id');
+                var alamat = DuDiDelete.replace('id', id);;
+
+                Swal.fire({
+                    title: 'Apakah anda ingin menghapus DUDI ini ?',
+                    text: 'Data yang Dihapus Tidak Dapat Dikembalikan!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Hapus!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: alamat,
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function(response) {
+                                table.ajax.reload();
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: `${response.message}`,
+                                    showConfirmButton: false,
+                                    timer: 3000
+                                });
+                            },
+                            error: function(data) {
+                                console.log('Error:', data);
+                                alert('Produk Gagal Di Hapus!');
+                            }
+                        });
+
+                    }
+                });
+            });
         })
     </script>
 @endsection

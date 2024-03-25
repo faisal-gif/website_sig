@@ -23,11 +23,14 @@
                             <label for="kategori" class="form-label">Kategori Mitra</label>
                             <select name="kategori" id="kategori" class="form-control">
                                 <option value="">Pilih</option>
-                                <option value="mitraBisnis">Mitra Bisnis</option>
-                                <option value="mitraStrategis">Mitra Strategis</option>
-                                <option value="mitraTeknologi">Mitra Teknologi</option>
-                                <option value="mitraRiset">Mitra Riset</option>
-                                <option value="mitraPendidikan">Mitra Pendidikan</option>
+                                <option value="BUMN">BUMN</option>
+                                <option value="Lembaga Sertifikasi">Lembaga Sertifikasi</option>
+                                <option value="Perusahaan Swasta">Perusahaan Swasta</option>
+                                <option value="Instansi Pemerintah">Instansi Pemerintah</option>
+                                <option value="Sekolah Negeri">Sekolah Negeri</option>
+                                <option value="Sekolah Swasta">Sekolah Swasta</option>
+                                <option value="PTN">PTN</option>
+                                <option value="PTS">PTS</option>
                             </select>
                             <span class="text-danger error-kategori"></span>
                         </div>
@@ -79,7 +82,7 @@
                             <select name="provinsi" id="provinsi" class="form-control">
                                 <option value="">Pilih</option>
                                 @foreach ($provinces as $item)
-                                    <option value="{{ $item->id ?? '' }}">{{ $item->name ?? '' }}</option>
+                                    <option value="{{ $item->name ?? '' }}">{{ $item->name ?? '' }}</option>
                                 @endforeach
                             </select>
                             <span class="text-danger error-provinsi"></span>
@@ -116,6 +119,46 @@
                 </div>
 
             </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Import Data DUDI NON NIB</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <label class="form-label">Download Template dulu dan isikan data sesuai format dari template
+                            setelah itu siap di upload</label>
+                    </div>
+                    <div class="col-md-12">
+                        <a href="#">Download Template</a>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="nama" class="form-label">Upload</label>
+                        <form method="post" action="{{ route('dudiNonNib.import') }}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="input-group">
+                                <input type="file" class="form-control" name="file" id="file"
+                                    aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                <button class="btn btn-outline-secondary" type="submit"
+                                    id="inputGroupFileAddon04">Import</button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>

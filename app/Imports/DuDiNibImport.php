@@ -4,8 +4,9 @@ namespace App\Imports;
 
 use App\Models\DuDi;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class DuDiNibImport implements ToModel
+class DuDiNibImport implements ToModel, WithHeadingRow
 {
     /**
      * @param array $row
@@ -15,8 +16,8 @@ class DuDiNibImport implements ToModel
     public function model(array $row)
     {
         return new DuDi([
-            'nama' => $row['namadudi'],
             'nib' => $row['nib'],
+            'nama' => $row['namadudi'],
             'jenis' => "nib",
             'kategori_mitra' => $row['kategorimitra'],
             'lingkup_kerjasama' => $row['lingkupkerjasama'],

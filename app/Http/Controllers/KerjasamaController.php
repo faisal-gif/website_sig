@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DuDi;
 use App\Models\Kerjasama;
+use App\Models\Notif;
 use App\Models\PenanggungJawab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -43,14 +45,14 @@ class KerjasamaController extends Controller
             })
             ->addColumn('status', function ($row) {
                 $stat = "";
-                if ($row === 'berjalan') {
+                if ($row->status === 'berjalan') {
                     $stat = '<a href="javascript:void(0)" class="text-white btn-info btn-sm mt-1">Berjalan</a>';
                 } else {
                     $stat = '<a href="javascript:void(0)" class="text-white btn-danger btn-sm mt-1">Selesai</a>';
                 }
                 return $stat;
             })
-            ->rawColumns(['action', 'item_kerjasama', 'nib','status'])
+            ->rawColumns(['action', 'item_kerjasama', 'nib', 'status'])
             ->make(true);
     }
     public function store(Request $request)
@@ -118,5 +120,42 @@ class KerjasamaController extends Controller
             'data' => $kerjasama
         ]);
 
+    }
+    public function chartKerjasama()
+    {
+        $data = Kerjasama::selectRaw('dudi.nama as nama_dudi, count(kerjasama.id) as total_kerjasama')
+            ->groupBy('dudi.nama')
+            ->join('dudi', 'kerjasama.dudi_id', '=', 'dudi.id')
+            ->get();
+
+        $chartKerjasama = [
+            'labels' => $data->pluck('nama_dudi'),
+            'data' => $data->pluck('total_kerjasama'),
+        ];
+
+        return $chartKerjasama;
+    }
+    public function chartLingkup()
+    {
+        $data = Kerjasama::selectRaw('dudi.lingkup_kerjasama as lingkup, count(kerjasama.id) as total_kerjasama')
+            ->groupBy('dudi.lingkup_kerjasama')
+            ->join('dudi', 'kerjasama.dudi_id', '=', 'dudi.id')
+            ->get();
+
+
+        $chartLingkup = [
+            'labels' => $data->pluck('lingkup'),
+            'data' => $data->pluck('total_kerjasama'),
+        ];
+
+        return $chartLingkup;
+    }
+    public function countNotif()
+    {
+        return Notif::count();
+    }
+    public function getNotif()
+    {
+        return Notif::select(['notif.*', 'kerjasama.nama_pks as kerjasama',])->join('kerjasama', 'notif.kerjasama', '=', 'kerjasama.id')->get();
     }
 }

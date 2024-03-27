@@ -10,20 +10,22 @@
         </div>
         <div class="card-body">
             <div class="mb-3">
-                <button type="button" id="tambah_dudi_non_nib" class="btn btn-sm btn-success btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-fa fa-plus"></i>
-                    </span>
-                    <span class="text">Tambah DUDI</span>
-                </button>
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-fa fa-plus"></i>
-                    </span>
-                    <span class="text">Impor Excel</span>
-                </button>
-
+                @if (Auth::user()->roles == 'wadir4' || Auth::user()->roles == 'tendik' || Auth::user()->roles == 'admin')
+                    <button type="button" id="tambah_dudi_non_nib" class="btn btn-sm btn-success btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-fa fa-plus"></i>
+                        </span>
+                        <span class="text">Tambah DUDI</span>
+                    </button>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-fa fa-plus"></i>
+                        </span>
+                        <span class="text">Impor Excel</span>
+                    </button>
+                @endif
             </div>
 
             <div class="table-responsive">

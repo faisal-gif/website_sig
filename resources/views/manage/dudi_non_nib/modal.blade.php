@@ -138,7 +138,7 @@
                             setelah itu siap di upload</label>
                     </div>
                     <div class="col-md-12">
-                        <a href="#">Download Template</a>
+                        <a href="{{asset('template_excel/Template_dudi_nonNib.xlsx')}}">Download Template</a>
                     </div>
                     <div class="col-md-12">
                         <label for="nama" class="form-label">Upload</label>

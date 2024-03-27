@@ -184,10 +184,7 @@ class DuDiController extends Controller
 
         Excel::import(new DuDiNonNibImport, $file);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Data Berhasil Diimport',
-        ]);
+        return redirect()->back();
     }
 
 
@@ -338,10 +335,7 @@ class DuDiController extends Controller
 
         Excel::import(new DuDiNibImport, $file);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Data Berhasil Diimport',
-        ]);
+        return redirect()->back();
     }
 
 }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>Mitra Polinema</title>
     <style>
         body {
             background: #007bff;
@@ -40,7 +40,7 @@
             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
                 <div class="card border-0 shadow rounded-3 my-5">
                     <div class="card-body p-4 p-sm-5">
-                        <h5 class="card-title text-center mb-5 fw-light fs-5">Sign In</h5>
+                        <h5 class="card-title text-center mb-5 fw-light fs-5">MITRA KERJASAMA POLINEMA</h5>
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
                             <div class="form-floating mb-3">

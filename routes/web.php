@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/chart', [KerjasamaController::class, 'chartLingkup']);
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index']);

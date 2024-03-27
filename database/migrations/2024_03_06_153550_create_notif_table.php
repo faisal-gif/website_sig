@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('kerjasama');
             $table->foreign('kerjasama')->references('id')->on('kerjasama')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('status');
+            $table->string('data');
             $table->timestamps();
         });
     }

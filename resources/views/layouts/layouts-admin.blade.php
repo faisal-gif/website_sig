@@ -67,18 +67,23 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
+            @if (Auth::user()->roles == 'wadir4' || Auth::user()->roles == 'tendik' || Auth::user()->roles == 'admin')
             <li class="nav-item">
                 <a class="nav-link" href="/prodi">
                     <i class="fas fa-fw fa-plus"></i>
                     <span>Program Studi</span>
                 </a>
             </li>
+            @endif
+            @if (Auth::user()->roles == 'staf_ahli' || Auth::user()->roles == 'tendik' || Auth::user()->roles == 'admin' )
             <li class="nav-item">
                 <a class="nav-link" href="/kerjasama">
                     <i class="fas fa-fw fa-plus"></i>
                     <span>Kerjasama DUDI</span>
                 </a>
             </li>
+            @endif
+            @if (Auth::user()->roles == 'wadir4' || Auth::user()->roles == 'tendik' || Auth::user()->roles == 'dosen' || Auth::user()->roles == 'admin')
             <li class="nav-item">
                 <a class="nav-link" href="/dudiNIB">
                     <i class="fas fa-fw fa-check"></i>
@@ -91,6 +96,7 @@
                     <span>DUDI Non-NIB</span>
                 </a>
             </li>
+            @endif
         </ul>
         <!-- End of Sidebar -->
 
@@ -111,7 +117,11 @@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
+                        @php
+                            $kerjasama = new App\Http\Controllers\KerjasamaController();
+                            $countNotif = $kerjasama->countNotif();
+                            $getNotif = $kerjasama->getNotif();
+                        @endphp
 
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
@@ -119,49 +129,29 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
+                                <span class="badge badge-danger badge-counter">{{ $countNotif }}+</span>
                             </a>
                             <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="alertsDropdown">
                                 <h6 class="dropdown-header">
-                                    Alerts Center
+                                    Notifikasi Kerjasama
                                 </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
+                                @foreach ($getNotif as $notif)
+                                    <a class="dropdown-item d-flex align-items-center" href="#">
+                                        <div class="mr-3">
+                                            <div class="icon-circle bg-danger">
+                                                <i class="fas fa-exclamation-triangle text-white"></i>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-donate text-white"></i>
+                                        <div>
+                                            <div class="small text-gray-500">{{ $notif->created_at }}</div>
+                                            Kerjasama : {{ $notif->kerjasama }}
+                                            <br>
+                                            {{ $notif->data }}
                                         </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 7, 2019</div>
-                                        $290.29 has been deposited into your account!
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fas fa-exclamation-triangle text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 2, 2019</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All
-                                    Alerts</a>
+                                    </a>
+                                @endforeach
                             </div>
                         </li>
 
@@ -182,7 +172,8 @@
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    class="d-none">
                                     @csrf
                                 </form>
                             </div>

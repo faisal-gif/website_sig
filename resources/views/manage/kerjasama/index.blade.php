@@ -28,9 +28,9 @@
                     <thead>
                         <tr>
                             <th>NIB/NPSN/Kode PT</th>
-                            <th>Nama</th>
+                            <th>Nama DUDI</th>
                             <th>Item Kerjasama</th>
-                            <th>Status</th>
+                            <th>Status Kerjasama</th>
                             <th>MOU dan PKS</th>
 
                         </tr>
@@ -45,6 +45,12 @@
     <script>
         const KerjasamaIndex = "{{ route('kerjasama.index') }}";
         const KerjasamaStore = "{{ route('kerjasama.store') }}";
+
+        var disableCheckbox = document.getElementById('TanpaBatasWaktu');
+        var myField = document.getElementById('selesai_pks');
+        disableCheckbox.addEventListener('change', function() {
+            myField.disabled = this.checked;
+        });
 
         $(function() {
 
@@ -81,6 +87,7 @@
             $('#tambah_kerjasama_DuDiNonNIB').click(function() {
                 $('#DuDiNonNIB').show();
                 $('#DuDiNIB').hide();
+                $('#selesai_pks').removeAttr('disabled');
                 $('#FieldDuDiNonNIB').removeAttr('disabled');
                 $('#FieldDuDiNIB').attr('disabled', true);
                 $('#formKerjasama').trigger('reset');
@@ -90,6 +97,7 @@
             $('#tambah_kerjasama_DuDiNIB').click(function() {
                 $('#DuDiNIB').show();
                 $('#DuDiNonNIB').hide();
+                $('#selesai_pks').removeAttr('disabled');
                 $('#FieldDuDiNonNIB').attr('disabled', true);
                 $('#FieldDuDiNIB').removeAttr('disabled');
                 $('#formKerjasama').trigger('reset');

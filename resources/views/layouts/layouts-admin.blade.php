@@ -68,34 +68,37 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             @if (Auth::user()->roles == 'wadir4' || Auth::user()->roles == 'tendik' || Auth::user()->roles == 'admin')
-            <li class="nav-item">
-                <a class="nav-link" href="/prodi">
-                    <i class="fas fa-fw fa-plus"></i>
-                    <span>Program Studi</span>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/prodi">
+                        <i class="fas fa-fw fa-plus"></i>
+                        <span>Program Studi</span>
+                    </a>
+                </li>
             @endif
-            @if (Auth::user()->roles == 'staf_ahli' || Auth::user()->roles == 'tendik' || Auth::user()->roles == 'admin' )
-            <li class="nav-item">
-                <a class="nav-link" href="/kerjasama">
-                    <i class="fas fa-fw fa-plus"></i>
-                    <span>Kerjasama DUDI</span>
-                </a>
-            </li>
+            @if (Auth::user()->roles == 'staf_ahli' || Auth::user()->roles == 'tendik' || Auth::user()->roles == 'admin')
+                <li class="nav-item">
+                    <a class="nav-link" href="/kerjasama">
+                        <i class="fas fa-fw fa-plus"></i>
+                        <span>Kerjasama DUDI</span>
+                    </a>
+                </li>
             @endif
-            @if (Auth::user()->roles == 'wadir4' || Auth::user()->roles == 'tendik' || Auth::user()->roles == 'dosen' || Auth::user()->roles == 'admin')
-            <li class="nav-item">
-                <a class="nav-link" href="/dudiNIB">
-                    <i class="fas fa-fw fa-check"></i>
-                    <span>DUDI Ber-NIB</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/dudiNonNIb">
-                    <i class="fas fa-fw fa-times"></i>
-                    <span>DUDI Non-NIB</span>
-                </a>
-            </li>
+            @if (Auth::user()->roles == 'wadir4' ||
+                    Auth::user()->roles == 'tendik' ||
+                    Auth::user()->roles == 'dosen' ||
+                    Auth::user()->roles == 'admin')
+                <li class="nav-item">
+                    <a class="nav-link" href="/dudiNIB">
+                        <i class="fas fa-fw fa-check"></i>
+                        <span>DUDI Ber-NIB</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dudiNonNIb">
+                        <i class="fas fa-fw fa-times"></i>
+                        <span>DUDI Non-NIB</span>
+                    </a>
+                </li>
             @endif
         </ul>
         <!-- End of Sidebar -->
@@ -138,19 +141,51 @@
                                     Notifikasi Kerjasama
                                 </h6>
                                 @foreach ($getNotif as $notif)
-                                    <a class="dropdown-item d-flex align-items-center" href="#">
-                                        <div class="mr-3">
-                                            <div class="icon-circle bg-danger">
-                                                <i class="fas fa-exclamation-triangle text-white"></i>
+                                    @if ($notif->status === '1')
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="mr-3">
+                                                <div class="icon-circle bg-primary">
+                                                    <i class="fas fa-exclamation-triangle text-white"></i>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <div class="small text-gray-500">{{ $notif->created_at }}</div>
-                                            Kerjasama : {{ $notif->kerjasama }}
-                                            <br>
-                                            {{ $notif->data }}
-                                        </div>
-                                    </a>
+                                            <div>
+                                                <div class="small text-gray-500">{{ $notif->created_at }}</div>
+                                                Kerjasama : {{ $notif->kerjasama }}
+                                                <br>
+                                                {{ $notif->data }}
+                                            </div>
+                                        </a>
+                                    @endif
+                                    @if ($notif->status === '2')
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="mr-3">
+                                                <div class="icon-circle bg-warning">
+                                                    <i class="fas fa-exclamation-triangle text-white"></i>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="small text-gray-500">{{ $notif->created_at }}</div>
+                                                Kerjasama : {{ $notif->kerjasama }}
+                                                <br>
+                                                {{ $notif->data }}
+                                            </div>
+                                        </a>
+                                    @endif
+                                    @if ($notif->status === '3')
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="mr-3">
+                                                <div class="icon-circle bg-danger">
+                                                    <i class="fas fa-exclamation-triangle text-white"></i>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="small text-gray-500">{{ $notif->created_at }}</div>
+                                                Kerjasama : {{ $notif->kerjasama }}
+                                                <br>
+                                                {{ $notif->data }}
+                                            </div>
+                                        </a>
+                                    @endif
                                 @endforeach
                             </div>
                         </li>

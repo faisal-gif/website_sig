@@ -32,17 +32,24 @@ class DemoCron extends Command
     public function handle()
     {
 
-
         $expired = Carbon::now();
         $dudi = Kerjasama::where('selesai_pks', '<=', $expired)->get();
         foreach ($dudi as $d) {
             $d->status = 'selesai';
             $d->save();
             $notif = Notif::where('kerjasama', $d->id)->first();
+            $dt = '';
             if (!$notif) {
+                if ($d->status === '1') {
+                    $dt = 'Kerjasa Sama Sedang Berjalan';
+                } elseif ($d->status === '2') {
+                    $dt = 'Kerjasa Tidak Memiliki Jangka Wakti';
+                } else {
+                    $dt = 'Masa Berlaku Kerjasama Sudah Berakhir';
+                }
                 Notif::create([
                     'kerjasama' => $d->id,
-                    'data' => 'Masa Berlaku Kerjasama Sudah Berakhir'
+                    'data' => $dt
                 ]);
             }
 

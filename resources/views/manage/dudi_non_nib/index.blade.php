@@ -37,7 +37,9 @@
                             <th>Kabupaten/Kota</th>
                             <th>Lingkup</th>
                             <th>Kategori Mitra</th>
+                            @if (Auth::user()->roles == 'wadir4' || Auth::user()->roles == 'tendik' || Auth::user()->roles == 'admin')
                             <th>Aksi</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -82,10 +84,12 @@
                         data: 'kategori_mitra',
                         name: 'kategori_mitra',
                     },
+                    @if (Auth::user()->roles == 'wadir4' || Auth::user()->roles == 'tendik' || Auth::user()->roles == 'admin')
                     {
                         data: 'action',
                         name: 'action',
                     },
+                    @endif
                 ],
                 search: {
                     "regex": true

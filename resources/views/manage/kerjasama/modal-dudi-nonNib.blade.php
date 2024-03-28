@@ -38,7 +38,8 @@
                             <select class="form-control selectpicker" data-live-search="true" id="FieldDuDiNIB"
                                 name="DuDi" aria-describedby="DuDi" title="Pilih Dudi" required>
                                 @foreach ($dudiNib as $item)
-                                    <option value="{{ $item->id ?? '' }}">{{ $item->nib ?? '' }} | {{ $item->nama ?? '' }}</option>
+                                    <option value="{{ $item->id ?? '' }}">{{ $item->nib ?? '' }} |
+                                        {{ $item->nama ?? '' }}</option>
                                 @endforeach
                             </select>
                             <span class="text-danger error-DuDi"></span>
@@ -112,10 +113,16 @@
                             <span class="text-danger error-mulai_pks"></span>
                         </div>
                         <div class="col-md-4">
-                            <label for="selesai_pks" class="form-label">Selesai PKS</label>
-                            <input type="date" class="form-control" id="selesai_pks" name="selesai_pks"
-                                aria-describedby="selesai_pks" required>
-                            <span class="text-danger error-penetapan_pks"></span>
+                            <div class="mb-3 ">
+                                <label for="selesai_pks" class="form-label">Selesai PKS</label>
+                                <input type="date" class="form-control" id="selesai_pks" name="selesai_pks"
+                                    aria-describedby="selesai_pks" required>
+                                <span class="text-danger error-penetapan_pks"></span>
+                            </div>
+                            <div class="mb-3 ml-4 form-check form-switch">
+                                <input name="tanpaBatasWaktu" type="checkbox" role="switch"  class="form-check-input" id="TanpaBatasWaktu">
+                                <label class="form-check-label" for="exampleCheck1">Tanpa batas waktu</label>
+                            </div>
                         </div>
                         <div class="col-md-4">
                             <label for="penetapan_pks" class="form-label">Penetapan PKS</label>

@@ -59,6 +59,7 @@ class KerjasamaController extends Controller
     }
     public function store(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'nama_penanggungJawab' => 'required|string|max:255',
             'kewarganegaraan' => 'required|string',
@@ -116,6 +117,18 @@ class KerjasamaController extends Controller
             'dokumen_mou' => $dokumenMou,
             'status' => $status
         ]);
+        $dt = '';
+        if ($kerjasama->status === '1') {
+            $dt = 'Kerjasa Sama Sedang Berjalan';
+        } elseif ($kerjasama->status === '2') {
+            $dt = 'Kerjasa Tidak Memiliki Jangka Wakti';
+        } else {
+            $dt = 'Masa Berlaku Kerjasama Sudah Berakhir';
+        }
+        Notif::create([
+            'kerjasama' => $kerjasama->id,
+            'data' => $dt
+        ]);
 
         return response()->json([
             'success' => true,
@@ -159,6 +172,6 @@ class KerjasamaController extends Controller
     }
     public function getNotif()
     {
-        return Notif::select(['notif.*', 'kerjasama.nama_pks as kerjasama',])->join('kerjasama', 'notif.kerjasama', '=', 'kerjasama.id')->get();
+        return Notif::select(['notif.*', 'kerjasama.nama_pks as kerjasama', 'kerjasama.status as status'])->join('kerjasama', 'notif.kerjasama', '=', 'kerjasama.id')->get();
     }
 }

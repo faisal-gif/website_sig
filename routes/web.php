@@ -23,12 +23,6 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index']);
 
-
-Route::get('provinces', [DependantDropdownController::class, 'provinces'])->name('provinces');
-Route::get('cities', [DependantDropdownController::class, 'cities'])->name('cities');
-Route::get('districts', [DependantDropdownController::class, 'districts'])->name('districts');
-Route::get('villages', [DependantDropdownController::class, 'villages'])->name('villages');
-
 Route::prefix('dudiNonNIb')->group(function () {
     Route::get('/', [DuDiController::class, 'dudiNonNib'])->name('dudiNonNib.show');
     Route::get('/index', [DuDiController::class, 'dudiNonNibindex'])->name('dudiNonNib.index');

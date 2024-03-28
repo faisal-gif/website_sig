@@ -23,10 +23,10 @@ return new class extends Migration {
             $table->string('no_pks');
             $table->date('mulai_pks');
             $table->date('penetapan_pks');
-            $table->date('selesai_pks');
+            $table->date('selesai_pks')->nullable();
             $table->string('dokumen_pks');
             $table->string('dokumen_mou');
-            $table->enum('status', ['berjalan', 'selesai']);
+            $table->enum('status', ['1', '2', '3']);
             $table->timestamps();
         });
     }

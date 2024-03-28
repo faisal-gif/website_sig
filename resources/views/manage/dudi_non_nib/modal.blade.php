@@ -73,42 +73,26 @@
                                 aria-describedby="alamat" required>
                             <span class="text-danger error-alamat"></span>
                         </div>
-                        @php
-                            $provinces = new App\Http\Controllers\DependantDropdownController();
-                            $provinces = $provinces->provinces();
-                        @endphp
                         <div class="col-md-3">
                             <label for="provinsi" class="form-label">Provinsi</label>
-                            <select name="provinsi" id="provinsi" class="form-control">
-                                <option value="">Pilih</option>
-                                @foreach ($provinces as $item)
-                                    <option value="{{ $item->name ?? '' }}">{{ $item->name ?? '' }}</option>
-                                @endforeach
-                            </select>
+                            <input type="text" name="provinsi" id="provinsi" class="form-control">
                             <span class="text-danger error-provinsi"></span>
                         </div>
                         <div class="col-md-3">
                             <label for="kota" class="form-label">Kabupaten/Kota</label>
-                            <select name="kota" id="kota" class="form-control">
-
-                            </select>
+                            <input type="text" name="kota" id="kota" class="form-control">
                             <span class="text-danger error-kota"></span>
                         </div>
                         <div class="col-md-3">
                             <label for="kecamatan" class="form-label">Kecamatan</label>
-                            <select name="kecamatan" id="kecamatan" class="form-control">
-
-                            </select>
+                            <input type="text" name="kecamatan" id="kecamatan" class="form-control">
                             <span class="text-danger error-kecamatan"></span>
                         </div>
                         <div class="col-md-3">
                             <label for="kelurahan" class="form-label">Kelurahan</label>
-                            <select name="kelurahan" id="kelurahan" class="form-control">
-                            </select>
+                            <input type="text" name="kelurahan" id="kelurahan" class="form-control">
                             <span class="text-danger error-kelurahan"></span>
                         </div>
-
-
                     </div>
                 </div>
                 <div class="modal-footer">

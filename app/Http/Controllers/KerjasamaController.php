@@ -45,8 +45,10 @@ class KerjasamaController extends Controller
             })
             ->addColumn('status', function ($row) {
                 $stat = "";
-                if ($row->status === 'berjalan') {
+                if ($row->status === '1') {
                     $stat = '<a href="javascript:void(0)" class="text-white btn-info btn-sm mt-1">Berjalan</a>';
+                } elseif ($row->status === '2') {
+                    $stat = '<a href="javascript:void(0)" class="text-white btn-warning btn-sm mt-1">Tanpa Jangka Waktu</a>';
                 } else {
                     $stat = '<a href="javascript:void(0)" class="text-white btn-danger btn-sm mt-1">Selesai</a>';
                 }
@@ -68,7 +70,6 @@ class KerjasamaController extends Controller
             'no_pks' => 'required|string',
             'mulai_pks' => 'required|date',
             'penetapan_pks' => 'required|date',
-            'selesai_pks' => 'required|date',
             'dokumen_pks' => 'required',
             'dokumen_mou' => 'required',
         ]);
@@ -95,9 +96,11 @@ class KerjasamaController extends Controller
 
         $status = "";
         if ($request->selesai_pks < now()) {
-            $status = "selesai";
+            $status = "2";
+        } elseif ($request->selesai_pks == null) {
+            $status = "3";
         } else {
-            $status = "berjalan";
+            $status = "1";
         }
 
         $kerjasama = Kerjasama::create([

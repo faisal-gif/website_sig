@@ -10,9 +10,7 @@
         </div>
         <div class="card-body">
             <div class="mb-3">
-                @if (Auth::user()->roles == 'wadir4' ||
-                        Auth::user()->roles == 'tendik' ||
-                        Auth::user()->roles == 'admin')
+                @if (Auth::user()->roles == 'wadir4' || Auth::user()->roles == 'tendik' || Auth::user()->roles == 'admin')
                     <button type="button" id="tambah_dudi_nib" class="btn btn-sm btn-success btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-fa fa-plus"></i>
@@ -59,47 +57,7 @@
         const DuDiUpdate = "{{ route('dudiNib.update', ['id' => 'id']) }}";
         const DuDiDelete = "{{ route('dudiNib.destroy', ['id' => 'id']) }}";
 
-        function onChangeSelect(url, val, name, defaultValue = null) {
-            $.ajax({
-                url: url,
-                type: 'GET',
-                data: {
-                    val: val
-                },
-                success: function(data) {
-
-                    $.each(data, function(key, value) {
-                        $('#' + name).append('<option value="' + value + '">' + value + '</option>');
-                    });
-
-                    if (defaultValue !== null) {
-                        $('#' + name).val(defaultValue).trigger('change');
-                    }
-                }
-            });
-        }
-
         $(function() {
-
-            $('#provinsi').on('change', function() {
-                $('#kota').empty().append('<option value="">Pilih</option>');
-                $('#kecamatan').empty().append('<option value="">Pilih</option>');
-                $('#kelurahan').empty().append('<option value="">Pilih</option>');
-
-                onChangeSelect('{{ route('cities') }}', $(this).val(), 'kota');
-            });
-            $('#kota').on('change', function() {
-                $('#kecamatan').empty().append('<option value="">Pilih</option>');
-                $('#kelurahan').empty().append('<option value="">Pilih</option>');
-
-                onChangeSelect('{{ route('districts') }}', $(this).val(), 'kecamatan');
-            })
-            $('#kecamatan').on('change', function() {
-                $('#kelurahan').empty().append('<option value="">Pilih</option>');
-
-                onChangeSelect('{{ route('villages') }}', $(this).val(), 'kelurahan');
-            })
-
             var table = $('#dataTable').DataTable({
                 processing: false,
                 serverSide: false,
@@ -202,13 +160,9 @@
                     $('#kbli').val(data.kbli);
                     $('#alamat').val(data.alamat);
                     $('#provinsi').val(data.provinsi);
-
-                    onChangeSelect('{{ route('cities') }}', data.provinsi, 'kota', data.kota);
-                    onChangeSelect('{{ route('districts') }}', data.kota, 'kecamatan', data
-                        .kecamatan);
-                    onChangeSelect('{{ route('villages') }}', data.kecamatan, 'kelurahan', data
-                        .kelurahan);
-
+                    $('#kota').val(data.kota);
+                    $('#kecamatan').val(data.kecamatan);
+                    $('#kelurahan').val(data.kelurahan);
                 });
             });
 
